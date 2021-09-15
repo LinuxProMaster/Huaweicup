@@ -1,0 +1,12 @@
+stp enable
+stp mode mstp
+stp region-configuration ( создаём регион MSTP)
+region-name "name"
+instance 1 vlan 101 (привязываем vlan к региону)
+instance 2 vlan 102
+instance 3 vlan 103
+active region-configuration (применяем настройки региона)
+quit
+stp instance 1 primary 20480
+stp instance 2 primary 20480
+stp instance 3 primaty 20480 (создаём приорететы)

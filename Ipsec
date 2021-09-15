@@ -1,0 +1,81 @@
+[RouterA] ipsec proposal tran1
+[RouterA-ipsec-proposal-tran1] esp authentication-algorithm sha2-256
+[RouterA-ipsec-proposal-tran1] esp encryption-algorithm aes-128
+[RouterA-ipsec-proposal-tran1] quit
+# Create an IPSec proposal on RouterB.
+
+[RouterB] ipsec proposal tran1
+[RouterB-ipsec-proposal-tran1] esp authentication-algorithm sha2-256
+[RouterB-ipsec-proposal-tran1] esp encryption-algorithm aes-128
+[RouterB-ipsec-proposal-tran1] quit
+Run the display ipsec proposal command on RouterA and RouterB to view the IPSec proposal configuration.
+
+Configure IKE peers on RouterA and RouterB.
+# Create an IKE proposal on RouterA.
+[RouterA] ike proposal 5
+[RouterA-ike-proposal-5] authentication-algorithm sha2-256
+[RouterA-ike-proposal-5] encryption-algorithm aes-128
+[RouterAike-proposal-5] dh group14
+[RouterA-ike-proposal-5] quit
+# Configure an IKE peer on RouterA.
+
+[RouterA] ike peer spub
+[RouterA-ike-peer-spub] undo version 2
+[RouterA-ike-peer-spub] ike-proposal 5
+[RouterA-ike-peer-spub] pre-shared-key cipher Huawei@1234
+[RouterA-ike-peer-spub] quit
+# Create an IPSec proposal on RouterB.
+
+[RouterB] ike proposal 5
+[RouterB-ike-proposal-5] authentication-algorithm sha2-256
+[RouterB-ike-proposal-5] encryption-algorithm aes-128
+[RouterB-ike-proposal-5] dh group14
+[RouterB-ike-proposal-5] quit
+# Configure an IKE peer on RouterB.
+
+[RouterB] ike peer spua
+[RouterB-ike-peer-spua] undo version 2
+[RouterB-ike-peer-spua] ike-proposal 5
+[RouterB-ike-peer-spua] pre-shared-key cipher Huawei@1234
+[RouterB-ike-peer-spua] quit
+Create IPSec profiles on RouterA and RouterB.
+# Create an IPSec profile on RouterA.
+
+[RouterA] ipsec profile profile1
+[RouterA-ipsec-profile-profile1] proposal tran1
+[RouterA-ipsec-profile-profile1] ike-peer spub
+[RouterA-ipsec-profile-profile1] quit
+# Create an IPSec profile on RouterB.
+
+[RouterB] ipsec profile profile1
+[RouterB-ipsec-profile-profile1] proposal tran1
+[RouterB-ipsec-profile-profile1] ike-peer spua
+[RouterB-ipsec-profile-profile1] quit
+Apply the IPSec profiles to IPSec tunnel interfaces on RouterA and RouterB.
+# Apply the IPSec profile to the interface of RouterA.
+
+[RouterA] interface tunnel 0/0/0
+[RouterA-Tunnel0/0/0] ip address 192.168.1.1 255.255.255.0
+[RouterA-Tunnel0/0/0] tunnel-protocol ipsec
+[RouterA-Tunnel0/0/0] source 1.1.1.1
+[RouterA-Tunnel0/0/0] destination 2.1.1.1
+[RouterA-Tunnel0/0/0] ipsec profile profile1
+[RouterA-Tunnel0/0/0] quit 
+# Apply the IPSec policy to the interface of RouterB.
+
+[RouterB] interface tunnel 0/0/0
+[RouterB-Tunnel0/0/0] ip address 192.168.1.2 255.255.255.0
+[RouterB-Tunnel0/0/0] tunnel-protocol ipsec
+[RouterB-Tunnel0/0/0] source 2.1.1.1
+[RouterB-Tunnel0/0/0] destination 1.1.1.1
+[RouterB-Tunnel0/0/0] ipsec profile profile1
+[RouterB-Tunnel0/0/0] quit 
+Run the display ipsec profile command on RouterA and RouterB to view the IPSec profile configuration.
+
+Configure static routes on IPSec tunnel interfaces and import data flows to be protected by IPSec to the tunnel interfaces.
+# Configure a static route on the tunnel interface of RouterA.
+
+[RouterA] ip route-static 10.1.2.0 255.255.255.0 tunnel 0/0/0 
+# Configure a static route on the tunnel interface of RouterB.
+
+[RouterB] ip route-static 10.1.1.0 255.255.255.0 tunnel 0/0/0 

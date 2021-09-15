@@ -1,0 +1,2 @@
+interface gigEth 0/0/1.10
+dot1q termination vid 10

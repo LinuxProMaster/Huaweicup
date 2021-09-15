@@ -1,0 +1,10 @@
+stp enable
+stp mode rstp
+stp root "primary-главный коммутатор" "secondary-второй по значимости коммутатор"
+interface GigEth 0/0/1 (на всех интерфейсах, подключенных к хостам нужно исключить stp)
+stp disable 
+
+Также необходимо перейти на интерфейс, смотрящий в сторону соседнего коммутатора и разрешить передачу bpdu frame
+
+int GigEth 0/0/2
+bpdu enable

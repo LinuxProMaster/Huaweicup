@@ -1,0 +1,5 @@
+dhcp enable
+dhcp snooping enable
+dhcp snooping enable vlan 10
+int Eth 0/0/0
+dhcp snooping trusted

@@ -1,0 +1,17 @@
+<HUAWEI> system-view
+[HUAWEI] sysname Switch
+[Switch] vlan 10
+[Switch-vlan10] quit
+# Add GE0/0/1 to VLAN 10. The configurations of GE0/0/2 and GE0/0/3 are similar to the configuration of GE0/0/1, and are not mentioned here.
+
+[Switch] interface gigabitethernet 0/0/1
+[Switch-GigabitEthernet0/0/1] port link-type access
+[Switch-GigabitEthernet0/0/1] port default vlan 10
+[Switch-GigabitEthernet0/0/1] quit
+Configure port security on GE0/0/1.
+# Enable the sticky MAC address function and set the maximum number of MAC addresses. The configurations of GE0/0/2 and GE0/0/3 are similar to the configuration of GE0/0/1, and are not mentioned here.
+
+[Switch] interface gigabitethernet 0/0/1
+[Switch-GigabitEthernet0/0/1] port-security enable
+[Switch-GigabitEthernet0/0/1] port-security mac-address sticky
+[Switch-GigabitEthernet0/0/1] port-security max-mac-num 1

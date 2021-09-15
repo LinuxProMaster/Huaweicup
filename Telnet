@@ -1,0 +1,28 @@
+Enable the server function.
+<HUAWEI> system-view
+[HUAWEI] sysname Telnet_Server
+[Telnet_Server] telnet server enable
+Set parameters for the VTY user interface.
+# Set the maximum number of VTY user interfaces.
+
+[Telnet_Server] user-interface maximum-vty 15
+# Set terminal attributes for the VTY user interface.
+
+[Telnet_Server] user-interface vty 0 14
+[Telnet_Server-ui-vty0-14] protocol inbound telnet
+[Telnet_Server-ui-vty0-14] shell
+[Telnet_Server-ui-vty0-14] idle-timeout 20
+[Telnet_Server-ui-vty0-14] screen-length 0
+[Telnet_Server-ui-vty0-14] history-command max-size 20
+# Set an authentication mode for the VTY user interface.
+
+[Telnet_Server-ui-vty0-14] authentication-mode aaa
+[Telnet_Server-ui-vty0-14] quit
+Configure the login user information.
+# Set an authentication mode for login users.
+
+[Telnet_Server] aaa
+[Telnet_Server-aaa] local-user admin1234 password irreversible-cipher Helloworld@6789
+[Telnet_Server-aaa] local-user admin1234 service-type telnet
+[Telnet_Server-aaa] local-user admin1234 privilege level 3
+[Telnet_Server-aaa] quit

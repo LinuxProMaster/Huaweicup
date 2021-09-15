@@ -1,0 +1,12 @@
+HUAWEI>system-view
+[~HUAWEI] interface eth-trunk 1
+[*HUAWEI-Eth-Trunk1] port link-type trunk
+[*HUAWEI-Eth-Trunk1] port trunk allow-pass vlan 10 20 30
+[*HUAWEI-Eth-Trunk1] mode lacp-static (mode lacp-dynamic)
+[*HUAWEI-Eth-Trunk1] trunkport Ethernet 0/0/1
+[*HUAWEI-Eth-Trunk1] trunkport Ethernet 0/0/2
+[~HUAWEI-Eth-Trunk1] quit
+
+display trunkmembership eth-trunk 1 (просмотр интерфейсов в группе)
+Interface Ethernet0/0/1, valid, operate up, weight=1
+Interface Ethernet0/0/2, valid, operate up, weight=1
